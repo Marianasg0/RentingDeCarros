@@ -357,5 +357,148 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
 
         return lc;
     }
+    public String SubMenu1(Scanner sc,metodos m){
+    String mensaje = "";
+    boolean seguir = true;
+    while (seguir) {
+        System.out.println("SubMenu: Gestion de clientes");
+        System.out.println("Seleccione la opcion que desea realizar");
+        System.out.println("1)Registrar cliente");
+        System.out.println("2)Modificar cliente");
+        System.out.println("3)Eliminar cliente");
+        System.out.println("4)Buscar cliente");
+        System.out.println("5)Volver al menu principal");
+        
+        int opt = m.ValidarEntero(sc);
+
+        switch (opt) {
+            case 1:
+                mensaje="Registro completado";
+                System.out.println(mensaje);
+                break;
+
+            case 2:
+                mensaje="Modificacion completada";
+                System.out.println(mensaje);
+                break;
+
+            case 3:
+                mensaje="Eliminacion completada";
+                System.out.println(mensaje);
+                break;
+
+            case 4:
+                mensaje="Busqueda completada";
+                System.out.println(mensaje);
+                break;
+
+            case 5:
+                mensaje="Volviendo al menu principal";
+                seguir=false;
+                break;
+        
+            default:
+                System.out.println("Esa opcion no existe");
+                break;
+        }
+    }
+    return mensaje;
+}
+
+public String SubMenu2(Scanner sc,metodos m){
+    String mensaje = "";
+    boolean seguir = true;
+    while (seguir) {
+        System.out.println("SubMenu: Gestion de vehiculos");
+        System.out.println("Seleccione la opcion que desea realizar");
+        System.out.println("1)Registrar vehiculo");
+        System.out.println("2)Modificar vehiculo");
+        System.out.println("3)Eliminar vehiculo");
+        System.out.println("4)Buscar vehiculo");
+        System.out.println("5)Volver al menu principal");
+        
+        int opt = m.ValidarEntero(sc);
+
+        switch (opt) {
+            case 1:
+                mensaje="Registro completado";
+                System.out.println(mensaje);
+                break;
+
+            case 2:
+                mensaje="Modificacion completada";
+                System.out.println(mensaje);
+                break;
+
+            case 3:
+                mensaje="Eliminacion completada";
+                System.out.println(mensaje);
+                break;
+
+            case 4:
+                mensaje="Busqueda completada";
+                System.out.println(mensaje);
+                break;
+
+            case 5:
+                mensaje="Volviendo al menu principal";
+                seguir=false;
+                break;
+        
+            default:
+                System.out.println("Esa opcion no existe");
+                break;
+        }
+    }
+    return mensaje;
+}
+
+public String SubMenu3(Scanner sc,metodos m){
+    String mensaje = "";
+    boolean seguir = true;
+    while (seguir) {
+        System.out.println("SubMenu: Gestion de contratos de renting");
+        System.out.println("Seleccione la opcion que desea realizar");
+        System.out.println("1)Registrar nuevo contrato");
+        System.out.println("2)Modificar contrato");
+        System.out.println("3)Finalizar contrato");
+        System.out.println("4)Buscar contrato");
+        System.out.println("5)Volver al menu principal");
+        
+        int opt = m.ValidarEntero(sc);
+
+        switch (opt) {
+            case 1:
+                mensaje="Registro completado";
+                System.out.println(mensaje);
+                break;
+
+            case 2:
+                mensaje="Modificacion completada";
+                System.out.println(mensaje);
+                break;
+
+            case 3:
+                mensaje="Finalizacion completada";
+                System.out.println(mensaje);
+                break;
+
+            case 4:
+                mensaje="Busqueda completada";
+                System.out.println(mensaje);
+                break;
+
+            case 5:
+                mensaje="Volviendo al menu principal";
+                seguir=false;
+                break;
+        
+            default:
+                System.out.println("Esa opcion no existe");
+                break;
+        }
+    }
+    return mensaje;
+}
 
 }
