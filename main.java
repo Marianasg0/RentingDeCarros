@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class main {
@@ -7,6 +9,10 @@ public class main {
         Scanner sc = new Scanner(System.in);
         metodos m = new metodos();
         
+        LinkedList<Cliente> lcl = new LinkedList<>();
+        LinkedList<Vehiculo> lv = new LinkedList<>();
+        LinkedList<ContratoRenting> lc = new LinkedList<>();
+
         boolean continuar = true;
 
         while (continuar) {
