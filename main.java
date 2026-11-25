@@ -8,6 +8,7 @@ public class main {
         
         Scanner sc = new Scanner(System.in);
         metodos m = new metodos();
+        Exportar e = new Exportar();
         
         LinkedList<Cliente> lcl = new LinkedList<>();
         LinkedList<Vehiculo> lv = new LinkedList<>();
@@ -28,19 +29,19 @@ public class main {
 
             switch (opt) {
                 case 1:
-                    System.out.println(m.SubMenu1(sc, m));
+                    System.out.println(m.SubMenu1(sc, m, lcl, lc));
                     break;
 
                 case 2:
-                    System.out.println(m.SubMenu2(sc, m));
+                    System.out.println(m.SubMenu2(sc, m, lv, lc));
                     break;
                 
                 case 3:
-                    System.out.println(m.SubMenu3(sc, m));
+                    System.out.println(m.SubMenu3(sc, m, lc, lv, lcl));
                     break;
             
                 case 4:
-                    
+                    e.exportarInformeGeneral(lcl, lv, lc);
                     break;
                 
                 case 5:
