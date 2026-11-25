@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class metodos {
     
     public LinkedList<Cliente> RegistrarCliente (LinkedList<Cliente> lcl,Scanner sc, metodos m){
+        sc.nextLine();
         boolean continuar = true;
     
         while (continuar) {
@@ -20,7 +21,7 @@ public class metodos {
             System.out.println("Ingrese la direccion del cliente");
             cl.setDireccion(sc.nextLine());
             System.out.println("Ingrese la licencia de conduccion del cliente");
-            cl.setLicenciaConduccion(sc.next());
+            cl.setLicenciaConduccion(sc.nextLine());
             lcl.add(cl);
 
             System.out.println("Desea agregar otro registro 1)Si 2)No");
@@ -102,7 +103,8 @@ public String SoloNumeros(Scanner sc) {
     return texto;
 }
 public LinkedList<Vehiculo> RegistrarVehiculo(LinkedList<Vehiculo> lv, Scanner sc, metodos m) {
-boolean continuar = true;
+sc.nextLine();
+    boolean continuar = true;
     
         while (continuar) {
 
@@ -173,7 +175,8 @@ public float ValidarPositivo(Scanner sc) {
 }
 
 public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting> lc,LinkedList<Vehiculo> lv,LinkedList<Cliente> lcl,Scanner sc,metodos m){
-        boolean continuar = true;
+    sc.nextLine();    
+    boolean continuar = true;
 
         while (continuar) {
             ContratoRenting c = new ContratoRenting();
@@ -217,18 +220,21 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
             String placa = m.SinCaracteresEspeciales(sc);
 
             int encontrado = 0;
+            float precioDiarioVehiculo = 0;
+
             for (Vehiculo v : lv) {
-                if(v.getPlaca().equalsIgnoreCase(placa)){
-                    encontrado=1;
-                    if(v.getEstado().equalsIgnoreCase("alquilado")){
-                        System.out.println("El vehiculo se encuentra alquilado");
-                        return lc;
-                    }
-                    else{
-                        v.setEstado("alquilado");
-                    }
+            if (v.getPlaca().equalsIgnoreCase(placa)) {
+                encontrado = 1;
+                if (v.getEstado().equalsIgnoreCase("alquilado")) {
+                    System.out.println("El vehiculo se encuentra alquilado");
+                    return lc;
+                } else {
+                    v.setEstado("alquilado");
+                    precioDiarioVehiculo = v.getPrecioDiario();
                 }
             }
+            }   
+
             if (encontrado==0) {
                 System.out.println("Esta placa no fue encontrada");
                 return lc;
@@ -240,14 +246,18 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
             System.out.println("Ingrese la fecha de finalizacion del alquiler");
             c.setFechaFin(sc.nextLine());
             System.out.println("Ingrese el total de dias de alquiler");
-            c.setTotalDias(m.ValidarEntero(sc));
-            System.out.println("Ingrese el valor total del alquiler");
-            c.setValorTotal(m.ValidarPositivo(sc));
+             int dias = m.ValidarEntero(sc);
+            sc.nextLine();
+            c.setTotalDias(dias);
+
+            float valorTotal = dias * precioDiarioVehiculo;
+            c.setValorTotal(valorTotal);
             c.setEstado(1);
             lc.add(c);
 
             System.out.println("Desea agregar otro registro 1)Si 2)No");
             int opt = m.ValidarEntero(sc);
+            sc.nextLine();
 
             if (opt == 2) {
                 continuar=false;
@@ -259,6 +269,7 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
     }
 
     public String buscarContrato (LinkedList<ContratoRenting> lc,Scanner sc){
+        sc.nextLine();
         System.out.println("Ingrese el ID del contrato que desea consultar");
         String ID = sc.nextLine();
 
@@ -294,7 +305,8 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
     }
 
     
-    public LinkedList<ContratoRenting> modificarContrato(LinkedList<ContratoRenting> lc,Scanner sc,metodos m){
+    public LinkedList<ContratoRenting> modificarContrato(LinkedList<ContratoRenting> lc,LinkedList<Vehiculo> lv,Scanner sc,metodos m){
+       sc.nextLine();
         System.out.println("Ingrese el ID del contrato que desea modificar");
         String ID = sc.nextLine();
         int encontrado=0;
@@ -310,9 +322,21 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
                 System.out.println("Ingrese la fecha de finalizacion del alquiler");
                 ct.setFechaFin(sc.nextLine());
                 System.out.println("Ingrese el total de dias de alquiler");
-                ct.setTotalDias(m.ValidarEntero(sc));
-                System.out.println("Ingrese el valor total del alquiler");
-                ct.setValorTotal(m.ValidarPositivo(sc));
+                int nuevosDias = m.ValidarEntero(sc);
+                sc.nextLine();
+                ct.setTotalDias(nuevosDias);
+
+                float precioDiario = 0;
+                for (Vehiculo v : lv) {
+                    if (v.getPlaca().equalsIgnoreCase(ct.getPlacaVehiculo())) {
+                        precioDiario = v.getPrecioDiario();
+                        break;
+                    }
+                }
+
+                float nuevoValorTotal = nuevosDias * precioDiario;
+                ct.setValorTotal(nuevoValorTotal);
+
                 System.out.println("Contrato modificado exitosamente");
                 }
             }
@@ -328,6 +352,7 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
 
 
     public LinkedList<ContratoRenting> finalizarContrato(LinkedList<ContratoRenting> lc,LinkedList<Vehiculo> lv,Scanner sc){
+        sc.nextLine();
         System.out.println("Ingrese el ID del contrato que desea finalizar");
         String ID = sc.nextLine();
         int encontrado=0;
@@ -357,7 +382,7 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
 
         return lc;
     }
-    public String SubMenu1(Scanner sc,metodos m){
+    public String SubMenu1(Scanner sc,metodos m,LinkedList<Cliente> lcl,LinkedList<ContratoRenting> lc){
     String mensaje = "";
     boolean seguir = true;
     while (seguir) {
@@ -373,23 +398,19 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
 
         switch (opt) {
             case 1:
-                mensaje="Registro completado";
-                System.out.println(mensaje);
+                lcl = m.RegistrarCliente(lcl, sc, m);
                 break;
 
             case 2:
-                mensaje="Modificacion completada";
-                System.out.println(mensaje);
+                lcl = m.modificarCliente(lcl, sc, m);
                 break;
 
             case 3:
-                mensaje="Eliminacion completada";
-                System.out.println(mensaje);
+                lcl = m.eliminarCliente(lcl, lc, sc, m);
                 break;
 
             case 4:
-                mensaje="Busqueda completada";
-                System.out.println(mensaje);
+                System.out.println(m.buscarCliente(lcl, sc));
                 break;
 
             case 5:
@@ -405,7 +426,7 @@ public LinkedList<ContratoRenting> registrarContrato(LinkedList<ContratoRenting>
     return mensaje;
 }
 
-public String SubMenu2(Scanner sc,metodos m){
+public String SubMenu2(Scanner sc,metodos m,LinkedList<Vehiculo> lv,LinkedList<ContratoRenting> lc){
     String mensaje = "";
     boolean seguir = true;
     while (seguir) {
@@ -421,23 +442,19 @@ public String SubMenu2(Scanner sc,metodos m){
 
         switch (opt) {
             case 1:
-                mensaje="Registro completado";
-                System.out.println(mensaje);
+                lv = m.RegistrarVehiculo(lv, sc, m);
                 break;
 
             case 2:
-                mensaje="Modificacion completada";
-                System.out.println(mensaje);
+                lv = m.modificarVehiculo(lv, sc, m);
                 break;
 
             case 3:
-                mensaje="Eliminacion completada";
-                System.out.println(mensaje);
+                lv = m.eliminarVehiculo(lv, lc, sc, m);
                 break;
 
             case 4:
-                mensaje="Busqueda completada";
-                System.out.println(mensaje);
+                System.out.println(m.buscarVehiculo(lv, sc, m));
                 break;
 
             case 5:
@@ -453,7 +470,7 @@ public String SubMenu2(Scanner sc,metodos m){
     return mensaje;
 }
 
-public String SubMenu3(Scanner sc,metodos m){
+public String SubMenu3(Scanner sc,metodos m,LinkedList<ContratoRenting> lc,LinkedList<Vehiculo> lv,LinkedList<Cliente> lcl){
     String mensaje = "";
     boolean seguir = true;
     while (seguir) {
@@ -469,23 +486,19 @@ public String SubMenu3(Scanner sc,metodos m){
 
         switch (opt) {
             case 1:
-                mensaje="Registro completado";
-                System.out.println(mensaje);
+                lc = m.registrarContrato(lc, lv, lcl, sc, m);
                 break;
 
             case 2:
-                mensaje="Modificacion completada";
-                System.out.println(mensaje);
+                lc = m.modificarContrato(lc, lv, sc, m);
                 break;
 
             case 3:
-                mensaje="Finalizacion completada";
-                System.out.println(mensaje);
+                lc = m.finalizarContrato(lc, lv, sc);
                 break;
 
             case 4:
-                mensaje="Busqueda completada";
-                System.out.println(mensaje);
+                System.out.println(m.buscarContrato(lc, sc));
                 break;
 
             case 5:
@@ -498,6 +511,218 @@ public String SubMenu3(Scanner sc,metodos m){
                 break;
         }
     }
+    return mensaje;
+}
+
+public LinkedList<Cliente> modificarCliente(LinkedList<Cliente> lcl,Scanner sc,metodos m){
+     sc.nextLine();
+    System.out.println("Ingrese la cedula del cliente que desea modificar");
+
+    String ID = sc.nextLine();
+    int encontrado = 0;
+
+    for (Cliente cl : lcl) {
+        if (cl.getCedula().equalsIgnoreCase(ID)) {
+            encontrado = 1;
+            System.out.println("Ingrese el nombre del cliente");
+            cl.setNombre(m.SoloLetras(sc));
+            System.out.println("Ingrese el apellido del cliente");
+            cl.setApellido(m.SoloLetras(sc));
+            System.out.println("Ingrese el telefono del cliente");
+            cl.setTelefono(m.SoloNumeros(sc));
+            System.out.println("Ingrese la direccion del cliente");
+            cl.setDireccion(sc.nextLine());
+            System.out.println("Ingrese la licencia de conduccion del cliente");
+            cl.setLicenciaConduccion(sc.nextLine());
+            System.out.println("Cliente modificado exitosamente");
+        }
+    }
+
+    if (encontrado == 0) {
+        System.out.println("Cliente no encontrado");
+    }
+
+    return lcl;
+    }
+
+
+     public String buscarCliente (LinkedList<Cliente> lcl,Scanner sc){
+        sc.nextLine();
+        System.out.println("Ingrese la cedula del cliente que desea consultar");
+        String ID = sc.nextLine();
+
+        int encontrado=0;
+        String mensaje="";
+
+        for (Cliente cl : lcl) {
+            if (cl.getCedula().equalsIgnoreCase(ID)) {
+                encontrado=1;
+                mensaje= "Cliente encontrado";
+                    System.out.println("Cedula: " + cl.getCedula());
+                    System.out.println("Nombre: " + cl.getNombre());
+                    System.out.println("Apellido: " + cl.getApellido());
+                    System.out.println("Telefono: " + cl.getTelefono());
+                    System.out.println("Direccion: " + cl.getDireccion());
+                    System.out.println("Licencia de conduccion: " + cl.getLicenciaConduccion());
+            }
+        }
+
+        if (encontrado==0) {
+            mensaje = "Cliente no encontrado";
+        }
+
+        return mensaje;
+
+    }
+
+    public LinkedList<Cliente> eliminarCliente(LinkedList<Cliente> lcl, LinkedList<ContratoRenting> lc, Scanner sc, metodos m) {
+    sc.nextLine();
+    System.out.println("Ingrese la cedula del cliente que desea eliminar");
+    String cedula = sc.nextLine();
+
+    for (ContratoRenting ct : lc) {
+        if (ct.getCedulaCliente().equalsIgnoreCase(cedula) && ct.getEstado() == 1) {
+            System.out.println("No se puede eliminar el cliente porque tiene un contrato activo");
+            return lcl;
+        }
+    }
+
+    int encontrado = 0;
+    for (int i = 0; i < lcl.size(); i++) {
+        if (lcl.get(i).getCedula().equalsIgnoreCase(cedula)) {
+            encontrado = 1;
+            lcl.remove(i);
+            System.out.println("Cliente eliminado exitosamente");
+            break;
+        }
+    }
+
+    if (encontrado == 0) {
+        System.out.println("Cliente no encontrado");
+    }
+
+    return lcl;
+}
+
+public LinkedList<Vehiculo> modificarVehiculo(LinkedList<Vehiculo> lv, Scanner sc, metodos m) {
+    sc.nextLine();
+    System.out.println("Ingrese la placa del vehiculo que desea modificar");
+    String placa = m.SinCaracteresEspeciales(sc);
+    int encontrado = 0;
+
+    for (Vehiculo v : lv) {
+        if (v.getPlaca().equalsIgnoreCase(placa)) {
+            encontrado = 1;
+
+            System.out.println("Ingrese la marca del vehiculo");
+            v.setMarca(m.SoloLetras(sc));
+
+            System.out.println("Ingrese el modelo del vehiculo");
+            v.setModelo(m.ValidarEntero(sc));
+            sc.nextLine();
+
+            System.out.println("Ingrese el precio diario del vehiculo");
+            v.setPrecioDiario(m.ValidarPositivo(sc));
+
+            boolean seguir = true;
+            while (seguir) {
+                System.out.println("Ingrese el tipo de vehiculo 1)Carro sedan 2)Camioneta SUV");
+                int tipovh = m.ValidarEntero(sc);
+                sc.nextLine();
+                v.setTipoVehiculo(tipovh);
+
+                if (tipovh == 1) {
+                    System.out.println("Ingrese el tipo de combustible del vehiculo");
+                    v.setTipoCombustible(m.SoloLetras(sc));
+                    System.out.println("Ingrese el tipo de transmision del vehiculo");
+                    v.setTransmision(m.SoloLetras(sc));
+                    seguir = false;
+                } else if (tipovh == 2) {
+                    System.out.println("Ingrese el tipo de traccion del vehiculo");
+                    v.setTraccion(m.SinCaracteresEspeciales(sc));
+                    System.out.println("Ingrese la capacidad del maletero en litros");
+                    v.setCapacidadMaletero(m.ValidarPositivo(sc));
+                    seguir = false;
+                } else {
+                    System.out.println("Esa opcion no existe");
+                }
+            }
+
+            System.out.println("Vehiculo modificado exitosamente");
+        }
+    }
+
+    if (encontrado == 0) {
+        System.out.println("Vehiculo no encontrado");
+    }
+
+    return lv;
+}
+
+public LinkedList<Vehiculo> eliminarVehiculo(LinkedList<Vehiculo> lv, LinkedList<ContratoRenting> lc, Scanner sc, metodos m) {
+    sc.nextLine();
+    System.out.println("Ingrese la placa del vehiculo que desea eliminar");
+    String placa = m.SinCaracteresEspeciales(sc);
+
+    for (ContratoRenting ct : lc) {
+        if (ct.getPlacaVehiculo().equalsIgnoreCase(placa) && ct.getEstado() == 1) {
+            System.out.println("No se puede eliminar el vehiculo porque tiene un contrato activo");
+            return lv;
+        }
+    }
+
+    int encontrado = 0;
+    for (int i = 0; i < lv.size(); i++) {
+        if (lv.get(i).getPlaca().equalsIgnoreCase(placa)) {
+            encontrado = 1;
+            lv.remove(i);
+            System.out.println("Vehiculo eliminado exitosamente");
+            break;
+        }
+    }
+
+    if (encontrado == 0) {
+        System.out.println("Vehiculo no encontrado");
+    }
+
+    return lv;
+}
+
+public String buscarVehiculo(LinkedList<Vehiculo> lv, Scanner sc, metodos m) {
+    sc.nextLine();
+    System.out.println("Ingrese la placa del vehiculo que desea consultar");
+    String placa = m.SinCaracteresEspeciales(sc);
+
+    int encontrado = 0;
+    String mensaje = "";
+
+    for (Vehiculo v : lv) {
+        if (v.getPlaca().equalsIgnoreCase(placa)) {
+            encontrado = 1;
+            mensaje = "Vehiculo encontrado";
+            System.out.println("Placa: " + v.getPlaca());
+            System.out.println("Marca: " + v.getMarca());
+            System.out.println("Modelo: " + v.getModelo());
+            System.out.println("Precio diario: " + v.getPrecioDiario());
+            System.out.println("Estado: " + v.getEstado());
+
+            if (v.getTipoVehiculo() == 1) {
+                System.out.println("Tipo de vehiculo: Carro sedan");
+                System.out.println("Tipo de combustible: " + v.getTipoCombustible());
+                System.out.println("Transmision: " + v.getTransmision());
+            } else if (v.getTipoVehiculo() == 2) {
+                System.out.println("Tipo de vehiculo: Camioneta SUV");
+                System.out.println("Traccion: " + v.getTraccion());
+                System.out.println("Capacidad maletero: " + v.getCapacidadMaletero() + " L");
+            }
+            break;
+        }
+    }
+
+    if (encontrado == 0) {
+        mensaje = "Vehiculo no encontrado";
+    }
+
     return mensaje;
 }
 
